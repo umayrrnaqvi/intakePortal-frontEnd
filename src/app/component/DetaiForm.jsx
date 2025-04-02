@@ -2,7 +2,7 @@
 import { useState } from "react";
 const DetailForm = () => {
 
-    const formSubmitApi = "http://localhost:5000/api/userForm/submitform";
+    const formSubmitApi = "https://intake-portal-back-end.vercel.app/api/userForm/submitform";
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",

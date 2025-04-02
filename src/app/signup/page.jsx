@@ -25,7 +25,7 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("http://localhost:5000/api/user/signup", {
+      const response = await fetch("https://intake-portal-back-end.vercel.app/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

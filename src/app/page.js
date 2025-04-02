@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 const Page = () => {
   const [formData, setFormData] = useState([]);
-  const getFormData = "http://localhost:5000/api/userForm/getformdata";
+  const getFormData = "https://intake-portal-back-end.vercel.app/api/userForm/getformdata";
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
