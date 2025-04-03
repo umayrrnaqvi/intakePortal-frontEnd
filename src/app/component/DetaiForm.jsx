@@ -1,8 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 const DetailForm = () => {
-
-    const formSubmitApi = "https://intake-portal-back-end.vercel.app/api/userForm/submitform";
+const router=useRouter()
+    const formSubmitApi = "https://intakeportalbe.vercel.app/api/userForm/submitform";
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
@@ -57,6 +58,7 @@ const DetailForm = () => {
     previouslyConsultedAnAttorney: "",
     additionalNote: "",
   });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -121,6 +123,8 @@ const DetailForm = () => {
         employerTelephoneNumber: "",
         inPain: "",
         currentlyWorking: "",
+        returnToWorkDate:"",
+        willNotReturnToWork:"",
         wayYourLifeDamage: "",
         spouseExperiencedAnyLossDueToInjury: "",
         witnessDetail: "",
@@ -145,6 +149,11 @@ const DetailForm = () => {
         return "grid grid-cols-2 gap-6"
     }
 
+
+    const closeForm=()=>{
+router.push("/")
+    }
+
     return (
         <>
             <div className="flex w-full  min-h-screen justify-center bg-white
@@ -164,8 +173,12 @@ const DetailForm = () => {
                     </h2>
 
                     {/* Navigation Buttons */}
-                    <div className="flex justify-end gap-4 mb-4">
-                        {step > 1 && (
+                    <div className="flex justify-between gap-4 mb-4">
+                    <button type="button" onClick={closeForm} className="px-4 py-2 bg-red-500 cursor-pointer text-white rounded-lg">
+                                Close
+                            </button>
+                    <div className="flex gap-5">
+                    {step > 1 && (
                             <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-400 cursor-pointer text-white rounded-lg">
                                 Previous
                             </button>
@@ -180,6 +193,7 @@ const DetailForm = () => {
                                 Submit
                             </button>
                         )}
+                    </div>
                     </div>
 
                     <div>
@@ -356,46 +370,45 @@ const DetailForm = () => {
                                     </div>
 
                                     <div>
-                                        <label className="block mb-2">How did your injury occur?</label>
-                                        <div className="mb-4">
-                                            {[
-                                                "Aircraft accident",
-                                                "Animal bite or attack",
-                                                "Assault and battery",
-                                                "Defective premises",
-                                                "Defective product",
-                                                "Police negligence",
-                                                "Medical malpractice",
-                                                "Motor vehicle accident",
-                                                "Slip or trip and fall",
-                                                "Water-related accident",
-                                                "Other",
-                                            ].map((option) => (
-                                                <div key={option} className="flex items-center mb-2">
-                                                    <input
-                                                        type="radio"
-                                                        name="injuryCause"
-                                                        value={option}
-                                                        checked={formData.injuryCause === option}
-                                                        onChange={handleChange}
-                                                        className="mr-2"
-                                                    />
-                                                    <label>{option}</label>
-                                                </div>
-                                            ))}
-                                        </div>
+    <label className="block mb-2">How did your injury occur?</label>
+    <select
+        name="injuryCause"
+        value={formData.injuryCause}
+        onChange={handleChange}
+        className="w-full px-3 py-2 border rounded-lg mb-4"
+    >
+        <option value="" disabled>Select an option</option>
+        {[
+            "Aircraft accident",
+            "Animal bite or attack",
+            "Assault and battery",
+            "Defective premises",
+            "Defective product",
+            "Police negligence",
+            "Medical malpractice",
+            "Motor vehicle accident",
+            "Slip or trip and fall",
+            "Water-related accident",
+            "Other",
+        ].map((option) => (
+            <option key={option} value={option}>
+                {option}
+            </option>
+        ))}
+    </select>
 
-                                        {formData.injuryCause === "Other" && (
-                                            <input
-                                                type="text"
-                                                name="otherInjuryCause"
-                                                value={formData.otherInjuryCause}
-                                                onChange={handleChange}
-                                                className="w-full px-3 py-2 border rounded-lg mb-4"
-                                                placeholder="Specify other injury cause"
-                                            />
-                                        )}
-                                    </div>
+    {formData.injuryCause === "Other" && (
+        <input
+            type="text"
+            name="otherInjuryCause"
+            value={formData.otherInjuryCause}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg mb-4"
+            placeholder="Specify other injury cause"
+        />
+    )}
+</div>
+
 
                                     <div>
                                         <label className="block mb-2">Where did your injury occur? (City)</label>
@@ -750,6 +763,7 @@ const DetailForm = () => {
                                                         <input
                                                             type="checkbox"
                                                             name="willNotReturnToWork"
+                                                          
                                                             checked={formData.willNotReturnToWork}
                                                             onChange={handleChange}
                                                             className="mr-2"

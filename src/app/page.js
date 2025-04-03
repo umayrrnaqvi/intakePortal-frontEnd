@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 const Page = () => {
   const [formData, setFormData] = useState([]);
-  const getFormData = "https://intake-back-end.vercel.app/api/userForm/getformdata";
+  const getFormData = "https://intakeportalbe.vercel.app/api/userForm/getformdata";
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -48,7 +48,7 @@ const Page = () => {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse border border-gray-300">
             <thead>
-              <tr className="bg-black text-white">
+              <tr className="bg-gray-400 text-black">
                 <th className="border border-gray-300 p-2">Name</th>
                 <th className="border border-gray-300 p-2">Email</th>
                 <th className="border border-gray-300 p-2">Phone</th>

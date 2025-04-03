@@ -16,7 +16,7 @@ const page = ({ params }) => {
   }, []);
   const fetchFormDetail = async () => {
     try {
-      const response = await fetch(`https://intake-portal-back-end.vercel.app/api/userForm/getformdata/${id}`);
+      const response = await fetch(`https://intakeportalbe.vercel.app/api/userForm/getformdata/${id}`);
       if (!response.ok) {
         throw new Error("Failed to fetch form details");
       }

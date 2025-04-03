@@ -18,11 +18,11 @@ router.push("/")
    <>
    
    
- <div className={`bg-black flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup" || pathname === "/form" ? "hidden" : ""}`}>
+ <div className={`bg-gray-400 flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup" || pathname === "/form" ? "hidden" : ""}`}>
 
 
 <div className='flex justify-between w-[80%] mx-auto'>
-<h1 className='text-white font-semibold text-3xl'>
+<h1 className='text-black font-semibold text-3xl'>
         Injury Report System
     </h1>
 {/* <button onClick={mainPage} className='text-black px-8 py-3 text-sm bg-white cursor-pointer rounded-[5px] border-none'>
