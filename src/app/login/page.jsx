@@ -22,7 +22,7 @@ const Page = () => {
     setError("");
 
     try {
-      const response = await fetch("https://intake-portal-back-end.vercel.app/user/login", {
+      const response = await fetch("https://intake-back-end.vercel.app/api/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

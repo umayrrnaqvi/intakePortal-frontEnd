@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 const Page = () => {
+  const signupApi="https://intake-back-end.vercel.app/api"
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +26,7 @@ const Page = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("https://intake-portal-back-end.vercel.app/api/user/signup", {
+      const response = await fetch(`${signupApi}/user/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
