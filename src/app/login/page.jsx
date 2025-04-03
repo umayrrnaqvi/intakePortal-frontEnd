@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const loginApi="https://intake-back-end.vercel.app/api"
+
+  // const loginApi="http://localhost:5000/api"
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +25,7 @@ const Page = () => {
     setError("");
 
     try {
-      const response = await fetch("https://intake-back-end.vercel.app/api/user/login", {
+      const response = await fetch(`${loginApi}/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

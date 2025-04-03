@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 const Page = () => {
   const signupApi="https://intake-back-end.vercel.app/api"
+  // const signupApi="http://localhost:5000/api"
   const [formData, setFormData] = useState({
     name: "",
     email: "",
