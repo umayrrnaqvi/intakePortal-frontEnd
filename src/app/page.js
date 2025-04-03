@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {toast,Toaster} from "react-hot-toast";
 const Page = () => {
   const getFormData = "https://intakeportalbe.vercel.app/api/userForm/getformdata";
   const [formData, setFormData] = useState([]);
@@ -51,14 +52,14 @@ const Page = () => {
     if (generatedLink) {
       navigator.clipboard.writeText(generatedLink)
         .then(() => {
-          alert('Link copied to clipboard!');
+          toast.success("Link copied to clipboard!", { duration: 2000 });
         })
         .catch(err => {
-          console.error('Error copying link:', err);
+          toast.error("Failed to copy link");
+          console.error("Error copying link:", err);
         });
     }
   };
-
 
 
 
@@ -69,6 +70,7 @@ const Page = () => {
     <>
       <div className="flex justify-between items-center mt-[100px] w-[80%] mx-auto">
         <h2 className="text-center text-3xl font-semibold mb-4">Injury Detail Table</h2>
+        <Toaster position="top-right" reverseOrder={false} />
         <div className="flex justify-end items-center gap-3">
           <Link href="/form">
             <button className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">

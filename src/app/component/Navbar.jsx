@@ -33,7 +33,6 @@ router.push("/")
 <button onClick={Logout} className='text-black px-8 py-3  text-sm bg-white cursor-pointer  rounded-[5px] border-none'>
     Logout
 </button>
-<Toaster position="top-right" />
 
 </div>
    

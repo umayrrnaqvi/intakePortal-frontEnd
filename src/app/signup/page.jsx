@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {toast,Toaster} from "react-hot-toast";
 const Page = () => {
   const signupApi="https://intakeportalbe.vercel.app/api"
   // const signupApi="http://localhost:5000/api"
@@ -45,6 +46,7 @@ const Page = () => {
       // Store token in localStorage
       localStorage.setItem("token", data);
      
+      toast.success("Signup successful", { duration: 1500 });
 
       // Redirect to login page
       router.push("/login");
@@ -56,6 +58,8 @@ const Page = () => {
   };
   return (
     <div className="flex items-center justify-center min-h-screen">
+      <Toaster position="top-right" />
+
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-700">Sign Up</h2>
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}

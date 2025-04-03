@@ -43,7 +43,7 @@ const Page = () => {
       localStorage.setItem("token", data.token);
 
       // Show success toast
-      toast.success("Login successful! Redirecting...", { duration: 1500 });
+      toast.success("Login successful", { duration: 1500 });
 
       // Wait for toast to complete before redirecting
       setTimeout(() => {
