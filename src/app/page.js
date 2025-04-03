@@ -3,8 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 const Page = () => {
-  const [formData, setFormData] = useState([]);
   const getFormData = "https://intakeportalbe.vercel.app/api/userForm/getformdata";
+  const [formData, setFormData] = useState([]);
+  const [generatedLink, setGeneratedLink] = useState("");
+
   const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,6 +29,42 @@ const Page = () => {
       console.error("Error fetching form data:", error);
     }
   };
+
+
+
+
+  const generateLink = async () => {
+    const token = localStorage.getItem("token");
+    const res = await fetch("https://intakeportalbe.vercel.app/api/formLink/generate-link", {
+      method: "POST",
+      headers: { Authorization: token },
+    });
+    const data = await res.json();
+    setGeneratedLink(data.link);
+    console.log(data.link)
+    console.log(generatedLink)
+  };
+
+
+
+  const copyToClipboard = () => {
+    if (generatedLink) {
+      navigator.clipboard.writeText(generatedLink)
+        .then(() => {
+          alert('Link copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Error copying link:', err);
+        });
+    }
+  };
+
+
+
+
+
+
+     
   return (
     <>
       <div className="flex justify-between items-center mt-[100px] w-[80%] mx-auto">
@@ -37,11 +75,48 @@ const Page = () => {
               Add Form Detail
             </button>
           </Link>
-          <Link href="/shareform">
-            <button className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">
+
+
+{/*           
+          <Link href="">
+            <button onClick={generateLink}  className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">
               Share Form Via Link
             </button>
-          </Link>
+          </Link> */}
+         {/* {generatedLink ? (
+        <Link href={`/shareform/${generatedLink.split('/').pop()}`}>
+          <button className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">
+            Share Form Via Link
+          </button>
+        </Link>
+      ) : (
+        <button
+          onClick={generateLink}
+          className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
+        >
+          Generate Link
+        </button>
+      )} */}
+
+
+
+
+
+{!generatedLink ? (
+        <button
+          onClick={generateLink}
+          className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
+        >
+          Generate Link
+        </button>
+      ) : (
+        <button
+          onClick={copyToClipboard}  // Copy link on button click
+          className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
+        >
+          Copy Form Link
+        </button>
+      )}
         </div>
       </div>
       <div className="mt-6 mx-auto w-[80%]">

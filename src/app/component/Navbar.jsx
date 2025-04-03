@@ -18,7 +18,7 @@ router.push("/")
    <>
    
    
- <div className={`bg-gray-400 flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup" || pathname === "/form" ? "hidden" : ""}`}>
+ <div className={`bg-gray-400 flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup"  || pathname === "/form" || pathname.startsWith("/shareform") ? "hidden" : ""}`}>
 
 
 <div className='flex justify-between w-[80%] mx-auto'>
