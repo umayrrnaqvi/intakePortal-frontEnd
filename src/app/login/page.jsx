@@ -2,11 +2,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
 
 const Page = () => {
-  const loginApi="https://intakeportalbe.vercel.app/api"
+  const loginApi = "https://intakeportalbe.vercel.app/api";
+  // const loginApi = "http://localhost:5000/api";
 
-  // const loginApi="http://localhost:5000/api"
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,29 +33,35 @@ const Page = () => {
         },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
 
+      const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
+
       // Store token in local storage
       localStorage.setItem("token", data.token);
 
-      console.log(data)
+      // Show success toast
+      toast.success("Login successful! Redirecting...", { duration: 1500 });
 
-      // Redirect to dashboard or home page
-      router.push("/");
+      // Wait for toast to complete before redirecting
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
     } catch (err) {
+      toast.error(err.message);
       setError(err.message);
     } finally {
       setLoading(false);
     }
-
-
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center justify-center min-h-screen">
+      {/* Toast Container */}
+      <Toaster position="top-right" />
+
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
 
