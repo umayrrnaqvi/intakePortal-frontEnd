@@ -1,11 +1,12 @@
 import Navbar from "./component/Navbar";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 
 
 export const metadata = {
   title: "Intake Law firm Portal",
-  description: "Created By Hurtech",
+  description: "56789Created By Hurtech",
 };
 
 export default function RootLayout({ children }) {
@@ -13,7 +14,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
       >
-        <Navbar/>
+        <Toaster position="top-right" />
+        <Navbar />
         {children}
       </body>
     </html>

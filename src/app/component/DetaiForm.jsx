@@ -2,86 +2,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 const DetailForm = () => {
-const router=useRouter()
-    const formSubmitApi = "https://intakeportalbe.vercel.app/api/userForm/submitform";
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    name: "",
-    socialSecurityNumber: "",
-    dateOfBirth: "",
-    address: "",
-    homePhone: "",
-    mobilePhone: "",
-    workPhone: "",
-    email: "",
-    methodToReach: "",
-    maritalStatus: "",
-    timeToReachYou: "",
-    spouseName: "",
-    numberOfChildren: "",
-    injuryOccurDate: "",
-    referredYouToOurOffice: "",
-    injuryCause: "",
-    otherInjuryCause: "",
-    injuryCity: "",
-    injuryState: "",
-    injuryCountry: "",
-    dateOfIncident: "",
-    howInjuryOccurred: "",
-    responsibleForYourInjury: "",
-    describeInjuries: "",
-    doctorName: "",
-    doctorPhoneNumber: "",
-    doctorAddress: "",
-    medicalExpensesIncurredToDate: "",
-    insuranceCompanyInvolve: "",
-    expectedFutureMedicalExpenses: "",
-    incomeBeforeInjuryPer: "",
-    incomeBeforInjuryPerType: "",
-    incomeAfterInjuryPer: "",
-    incomeAfterInjuryPerType: "",
-    lostIncomeDueToInjury: "",
-    employerName: "",
-    employerPosition: "",
-    employerAddress: "",
-    employerTelephoneNumber: "",
-    inPain: "",
-    currentlyWorking: "",
-    wayYourLifeDamage: "",
-    spouseExperiencedAnyLossDueToInjury: "",
-    witnessDetail: "",
-    conversationOfTheIncident: "",
-    informationProvideYouAtTheScene: "",
-    shoesWornAtTheTimeOfInjury: "",
-    fallOccurredHowLand: "",
-    slippedButNotFallWhatStop: "",
-    previouslyConsultedAnAttorney: "",
-    additionalNote: "",
-  });
+    const router = useRouter()
+    // // const formSubmitApi = "https://intakeportalbe.vercel.app/api/userForm/submitform";
+    // const formSubmitApi = "http://localhost:5000/api/userForm/submitform";
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-  const nextStep = () => setStep((prev) => prev + 1);
-  const prevStep = () => setStep((prev) => prev - 1);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(formSubmitApi, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-      const data = await response.json();
-      alert("Form submitted successfully!");
-      console.log("Response from backend:", data);
-      // Reset form after successful submission
-      setFormData({
+    const [step, setStep] = useState(1);
+    const [formData, setFormData] = useState({
         name: "",
         socialSecurityNumber: "",
         dateOfBirth: "",
@@ -123,8 +49,6 @@ const router=useRouter()
         employerTelephoneNumber: "",
         inPain: "",
         currentlyWorking: "",
-        returnToWorkDate:"",
-        willNotReturnToWork:"",
         wayYourLifeDamage: "",
         spouseExperiencedAnyLossDueToInjury: "",
         witnessDetail: "",
@@ -135,23 +59,123 @@ const router=useRouter()
         slippedButNotFallWhatStop: "",
         previouslyConsultedAnAttorney: "",
         additionalNote: "",
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again.");
-    }
-  };
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+    const nextStep = () => setStep((prev) => prev + 1);
+    const prevStep = () => setStep((prev) => prev - 1);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const token = localStorage.getItem("token"); // or from context, cookie, etc.
+            const isLoggedIn = token && token !== "null";
+
+            // If not logged in, you must have a linkId from the URL or somewhere
+            const linkId = !isLoggedIn ? getLinkIdFromURL() : null;
+
+            const formSubmitApi = isLoggedIn
+                ? "https://intakeportalbe.vercel.app/api/userForm/submitform"
+                : `https://intakeportalbe.vercel.app/api/userForm/submitform/${linkId}`;
+
+            const response = await fetch(formSubmitApi, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(isLoggedIn && { Authorization: token }), // only include token if logged in
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to submit form");
+            }
+
+            const data = await response.json();
+            alert("Form submitted successfully!");
+            console.log("Response from backend:", data);
+
+            // Reset form
+            setFormData({
+                name: "",
+                socialSecurityNumber: "",
+                dateOfBirth: "",
+                address: "",
+                homePhone: "",
+                mobilePhone: "",
+                workPhone: "",
+                email: "",
+                methodToReach: "",
+                maritalStatus: "",
+                timeToReachYou: "",
+                spouseName: "",
+                numberOfChildren: "",
+                injuryOccurDate: "",
+                referredYouToOurOffice: "",
+                injuryCause: "",
+                otherInjuryCause: "",
+                injuryCity: "",
+                injuryState: "",
+                injuryCountry: "",
+                dateOfIncident: "",
+                howInjuryOccurred: "",
+                responsibleForYourInjury: "",
+                describeInjuries: "",
+                doctorName: "",
+                doctorPhoneNumber: "",
+                doctorAddress: "",
+                medicalExpensesIncurredToDate: "",
+                insuranceCompanyInvolve: "",
+                expectedFutureMedicalExpenses: "",
+                incomeBeforeInjuryPer: "",
+                incomeBeforInjuryPerType: "",
+                incomeAfterInjuryPer: "",
+                incomeAfterInjuryPerType: "",
+                lostIncomeDueToInjury: "",
+                employerName: "",
+                employerPosition: "",
+                employerAddress: "",
+                employerTelephoneNumber: "",
+                inPain: "",
+                currentlyWorking: "",
+                returnToWorkDate: "",
+                willNotReturnToWork: "",
+                wayYourLifeDamage: "",
+                spouseExperiencedAnyLossDueToInjury: "",
+                witnessDetail: "",
+                conversationOfTheIncident: "",
+                informationProvideYouAtTheScene: "",
+                shoesWornAtTheTimeOfInjury: "",
+                fallOccurredHowLand: "",
+                slippedButNotFallWhatStop: "",
+                previouslyConsultedAnAttorney: "",
+                additionalNote: "",
+            });
+
+        } catch (error) {
+            console.error("Error submitting form:", error);
+            alert("Error submitting form. Please try again.");
+        }
+    };
+
+    // Helper to extract linkId from the URL
+    const getLinkIdFromURL = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("linkId"); // URL should be like ?linkId=xyz123
+    };
 
     const gridClass = (step) => {
-        if (step === 8 || step === 10 || step === 3 || step === 7 ) {
+        if (step === 8 || step === 10 || step === 3 || step === 7) {
             return "";
         }
         return "grid grid-cols-2 gap-6"
     }
 
 
-    const closeForm=()=>{
-router.push("/")
+    const closeForm = () => {
+        router.push("/")
     }
 
     return (
@@ -174,26 +198,26 @@ router.push("/")
 
                     {/* Navigation Buttons */}
                     <div className="flex justify-between gap-4 mb-4">
-                    <button type="button" onClick={closeForm} className="px-4 py-2 bg-red-500 cursor-pointer text-white rounded-lg">
-                                Close
-                            </button>
-                    <div className="flex gap-5">
-                    {step > 1 && (
-                            <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-400 cursor-pointer text-white rounded-lg">
-                                Previous
-                            </button>
-                        )}
+                        <button type="button" onClick={closeForm} className="px-4 py-2 bg-red-500 cursor-pointer text-white rounded-lg">
+                            Close
+                        </button>
+                        <div className="flex gap-5">
+                            {step > 1 && (
+                                <button type="button" onClick={prevStep} className="px-4 py-2 bg-gray-400 cursor-pointer text-white rounded-lg">
+                                    Previous
+                                </button>
+                            )}
 
-                        {step < 10 ? (
-                            <button type="button" onClick={nextStep} className="px-4 py-2 bg-blue-500 cursor-pointer text-white rounded-lg">
-                                Next
-                            </button>
-                        ) : (
-                            <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white cursor-pointer rounded-lg">
-                                Submit
-                            </button>
-                        )}
-                    </div>
+                            {step < 10 ? (
+                                <button type="button" onClick={nextStep} className="px-4 py-2 bg-blue-500 cursor-pointer text-white rounded-lg">
+                                    Next
+                                </button>
+                            ) : (
+                                <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white cursor-pointer rounded-lg">
+                                    Submit
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     <div>
@@ -370,44 +394,44 @@ router.push("/")
                                     </div>
 
                                     <div>
-    <label className="block mb-2">How did your injury occur?</label>
-    <select
-        name="injuryCause"
-        value={formData.injuryCause}
-        onChange={handleChange}
-        className="w-full px-3 py-2 border rounded-lg mb-4"
-    >
-        <option value="" disabled>Select an option</option>
-        {[
-            "Aircraft accident",
-            "Animal bite or attack",
-            "Assault and battery",
-            "Defective premises",
-            "Defective product",
-            "Police negligence",
-            "Medical malpractice",
-            "Motor vehicle accident",
-            "Slip or trip and fall",
-            "Water-related accident",
-            "Other",
-        ].map((option) => (
-            <option key={option} value={option}>
-                {option}
-            </option>
-        ))}
-    </select>
+                                        <label className="block mb-2">How did your injury occur?</label>
+                                        <select
+                                            name="injuryCause"
+                                            value={formData.injuryCause}
+                                            onChange={handleChange}
+                                            className="w-full px-3 py-2 border rounded-lg mb-4"
+                                        >
+                                            <option value="" disabled>Select an option</option>
+                                            {[
+                                                "Aircraft accident",
+                                                "Animal bite or attack",
+                                                "Assault and battery",
+                                                "Defective premises",
+                                                "Defective product",
+                                                "Police negligence",
+                                                "Medical malpractice",
+                                                "Motor vehicle accident",
+                                                "Slip or trip and fall",
+                                                "Water-related accident",
+                                                "Other",
+                                            ].map((option) => (
+                                                <option key={option} value={option}>
+                                                    {option}
+                                                </option>
+                                            ))}
+                                        </select>
 
-    {formData.injuryCause === "Other" && (
-        <input
-            type="text"
-            name="otherInjuryCause"
-            value={formData.otherInjuryCause}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg mb-4"
-            placeholder="Specify other injury cause"
-        />
-    )}
-</div>
+                                        {formData.injuryCause === "Other" && (
+                                            <input
+                                                type="text"
+                                                name="otherInjuryCause"
+                                                value={formData.otherInjuryCause}
+                                                onChange={handleChange}
+                                                className="w-full px-3 py-2 border rounded-lg mb-4"
+                                                placeholder="Specify other injury cause"
+                                            />
+                                        )}
+                                    </div>
 
 
                                     <div>
@@ -763,7 +787,7 @@ router.push("/")
                                                         <input
                                                             type="checkbox"
                                                             name="willNotReturnToWork"
-                                                          
+
                                                             checked={formData.willNotReturnToWork}
                                                             onChange={handleChange}
                                                             className="mr-2"
@@ -889,116 +913,118 @@ router.push("/")
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                             rows="3"
                                         ></textarea>
-                                    </div> 
-                                    
+                                    </div>
+
                                     <div>
-                                    <label className="block mb-2">Have you previously consulted an attorney regarding your case?</label>
-                                    <div className="mb-4">
-                                        <label className="mr-4">
-                                            <input
-                                                type="radio"
-                                                name="previouslyConsultedAnAttorney"
-                                                value="Yes"
-                                                checked={formData.previouslyConsultedAnAttorney === "Yes"}
-                                                onChange={handleChange}
-                                                className="mr-2"
-                                            />
-                                            Yes
-                                        </label>
-                                        <label>
-                                            <input
-                                                type="radio"
-                                                name="previouslyConsultedAnAttorney"
-                                                value="No"
-                                                checked={formData.previouslyConsultedAnAttorney === "No"}
-                                                onChange={handleChange}
-                                                className="mr-2"
-                                            />
-                                            No
-                                        </label>
+                                        <label className="block mb-2">Have you previously consulted an attorney regarding your case?</label>
+                                        <div className="mb-4">
+                                            <label className="mr-4">
+                                                <input
+                                                    type="radio"
+                                                    name="previouslyConsultedAnAttorney"
+                                                    value="Yes"
+                                                    checked={formData.previouslyConsultedAnAttorney === "Yes"}
+                                                    onChange={handleChange}
+                                                    className="mr-2"
+                                                />
+                                                Yes
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="radio"
+                                                    name="previouslyConsultedAnAttorney"
+                                                    value="No"
+                                                    checked={formData.previouslyConsultedAnAttorney === "No"}
+                                                    onChange={handleChange}
+                                                    className="mr-2"
+                                                />
+                                                No
+                                            </label>
+                                        </div>
+
+
+                                        {formData.consultedAttorney === "Yes" && (
+                                            <>
+                                                <label className="block mb-2">Attorney's Name, Firm, Address, and Phone</label>
+                                                <textarea
+                                                    name="attorneyDetails"
+                                                    value={formData.attorneyDetails}
+                                                    onChange={handleChange}
+                                                    className="w-full px-3 py-2 border rounded-lg mb-4"
+                                                    rows="4"
+                                                ></textarea>
+
+                                                <label className="block mb-2">Is your relationship with the attorney ongoing?</label>
+                                                <div className="mb-4">
+                                                    <label className="mr-4">
+                                                        <input
+                                                            type="radio"
+                                                            name="ongoingAttorney"
+                                                            value="Yes"
+                                                            checked={formData.ongoingAttorney === "Yes"}
+                                                            onChange={handleChange}
+                                                            className="mr-2"
+                                                        />
+                                                        Yes
+                                                    </label>
+                                                    <label>
+                                                        <input
+                                                            type="radio"
+                                                            name="ongoingAttorney"
+                                                            value="No"
+                                                            checked={formData.ongoingAttorney === "No"}
+                                                            onChange={handleChange}
+                                                            className="mr-2"
+                                                        />
+                                                        No
+                                                    </label>
+                                                </div>
+
+                                                <label className="block mb-2">Has an attorney declined to represent you?</label>
+                                                <div className="mb-4">
+                                                    <label className="mr-4">
+                                                        <input
+                                                            type="radio"
+                                                            name="attorneyDeclined"
+                                                            value="Yes"
+                                                            checked={formData.attorneyDeclined === "Yes"}
+                                                            onChange={handleChange}
+                                                            className="mr-2"
+                                                        />
+                                                        Yes
+                                                    </label>
+                                                    <label>
+                                                        <input
+                                                            type="radio"
+                                                            name="attorneyDeclined"
+                                                            value="No"
+                                                            checked={formData.attorneyDeclined === "No"}
+                                                            onChange={handleChange}
+                                                            className="mr-2"
+                                                        />
+                                                        No
+                                                    </label>
+                                                </div>
+
+                                                {formData.attorneyDeclined === "Yes" && (
+                                                    <>
+                                                        <label className="block mb-2">If yes, why?</label>
+                                                        <textarea
+                                                            name="attorneyDeclinedReason"
+                                                            value={formData.attorneyDeclinedReason}
+                                                            onChange={handleChange}
+                                                            className="w-full px-3 py-2 border rounded-lg mb-4"
+                                                            rows="3"
+                                                        ></textarea>
+                                                    </>
+                                                )}
+                                            </>
+                                        )}
+
+
                                     </div>
 
-                                    {formData.consultedAttorney === "Yes" && (
-                                        <>
-                                            <label className="block mb-2">Attorney's Name, Firm, Address, and Phone</label>
-                                            <textarea
-                                                name="attorneyDetails"
-                                                value={formData.attorneyDetails}
-                                                onChange={handleChange}
-                                                className="w-full px-3 py-2 border rounded-lg mb-4"
-                                                rows="4"
-                                            ></textarea>
-
-                                            <label className="block mb-2">Is your relationship with the attorney ongoing?</label>
-                                            <div className="mb-4">
-                                                <label className="mr-4">
-                                                    <input
-                                                        type="radio"
-                                                        name="ongoingAttorney"
-                                                        value="Yes"
-                                                        checked={formData.ongoingAttorney === "Yes"}
-                                                        onChange={handleChange}
-                                                        className="mr-2"
-                                                    />
-                                                    Yes
-                                                </label>
-                                                <label>
-                                                    <input
-                                                        type="radio"
-                                                        name="ongoingAttorney"
-                                                        value="No"
-                                                        checked={formData.ongoingAttorney === "No"}
-                                                        onChange={handleChange}
-                                                        className="mr-2"
-                                                    />
-                                                    No
-                                                </label>
-                                            </div>
-
-                                            <label className="block mb-2">Has an attorney declined to represent you?</label>
-                                            <div className="mb-4">
-                                                <label className="mr-4">
-                                                    <input
-                                                        type="radio"
-                                                        name="attorneyDeclined"
-                                                        value="Yes"
-                                                        checked={formData.attorneyDeclined === "Yes"}
-                                                        onChange={handleChange}
-                                                        className="mr-2"
-                                                    />
-                                                    Yes
-                                                </label>
-                                                <label>
-                                                    <input
-                                                        type="radio"
-                                                        name="attorneyDeclined"
-                                                        value="No"
-                                                        checked={formData.attorneyDeclined === "No"}
-                                                        onChange={handleChange}
-                                                        className="mr-2"
-                                                    />
-                                                    No
-                                                </label>
-                                            </div>
-
-                                            {formData.attorneyDeclined === "Yes" && (
-                                                <>
-                                                    <label className="block mb-2">If yes, why?</label>
-                                                    <textarea
-                                                        name="attorneyDeclinedReason"
-                                                        value={formData.attorneyDeclinedReason}
-                                                        onChange={handleChange}
-                                                        className="w-full px-3 py-2 border rounded-lg mb-4"
-                                                        rows="3"
-                                                    ></textarea>
-                                                </>
-                                            )}
-                                        </>
-                                    )}
-
-                                    </div>
-                                    
-                                    </>
+                                </>
                             )}
 
 
@@ -1028,3 +1054,4 @@ router.push("/")
 }
 
 export default DetailForm
+

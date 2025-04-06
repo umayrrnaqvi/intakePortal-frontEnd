@@ -2,44 +2,48 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
+import toast from 'react-hot-toast'
 const Navbar = () => {
-const router=useRouter()
-const pathname=usePathname()
-    const Logout=()=>{
+    const router = useRouter()
+    const pathname = usePathname()
+    const Logout = () => {
         localStorage.removeItem("token")
-      toast.success("Logout Successfull", { duration: 1500 });
+        toast.success("Logout Successfull", { duration: 1500 });
 
-router.push("/login")
+        router.push("/login")
     }
 
 
-    const mainPage=()=>{
-router.push("/")
+    const mainPage = () => {
+        router.push("/")
     }
-  return (
-   <>
-   
-   
- <div className={`bg-gray-400 flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup"  || pathname === "/form" || pathname.startsWith("/shareform") ? "hidden" : ""}`}>
+    return (
+        <>
 
 
-<div className='flex justify-between w-[80%] mx-auto'>
-<h1 className='text-black font-semibold text-3xl'>
-        Injury Report System
-    </h1>
-{/* <button onClick={mainPage} className='text-black px-8 py-3 text-sm bg-white cursor-pointer rounded-[5px] border-none'>
+            <div className={`bg-gray-400 flex items-center w-[100%] justify-between   h-[80px]  ${pathname === "/login" || pathname === "/signup" || pathname === "/expired" || pathname === "/submitted" || pathname === "/success" || pathname === "/form" || pathname.startsWith("/shareform") ? "hidden" : ""}`}>
+
+
+                <div className='flex justify-between w-[80%] mx-auto'>
+                    <h1 className='text-black font-semibold text-3xl'>
+                        Injury Report System
+                    </h1>
+                    {/* <button onClick={mainPage} className='text-black px-8 py-3 text-sm bg-white cursor-pointer rounded-[5px] border-none'>
     Main Page
 </button> */}
-<button onClick={Logout} className='text-black px-8 py-3  text-sm bg-white cursor-pointer  rounded-[5px] border-none'>
-    Logout
-</button>
+                    <button onClick={Logout} className='text-black px-8 py-3  text-sm bg-white cursor-pointer  rounded-[5px] border-none'>
+                        Logout
+                    </button>
 
-</div>
-   
 
- </div>
-   </>
-  )
+                </div>
+
+
+
+            </div>
+        </>
+    )
 }
 
 export default Navbar
+

@@ -84,7 +84,6 @@ const Page = () => {
           <div className="mb-4 flex flex-col gap-2">
             <label className="block text-gray-600 text-sm font-medium">Password</label>
             <input
-              type="password"
               placeholder="Password"
               name="password"
               value={formData.password}
@@ -99,8 +98,7 @@ const Page = () => {
             className="w-full py-4 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 cursor-pointer"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
-          </button>
+             {loading ? "Logging in..." : "Login"} </button>
         </form>
 
         <p className="mt-4 text-sm text-gray-600 text-center">

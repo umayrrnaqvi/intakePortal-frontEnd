@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {toast,Toaster} from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 const Page = () => {
   const getFormData = "https://intakeportalbe.vercel.app/api/userForm/getformdata";
+  const generateFormLink = "https://intakeportalbe.vercel.app/api/formLink/generate-link"
+  // const generateFormLink = "http://localhost:5000/api/formLink/generate-link"
+
   const [formData, setFormData] = useState([]);
   const [generatedLink, setGeneratedLink] = useState("");
 
@@ -36,7 +39,7 @@ const Page = () => {
 
   const generateLink = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("https://intakeportalbe.vercel.app/api/formLink/generate-link", {
+    const res = await fetch(generateFormLink, {
       method: "POST",
       headers: { Authorization: token },
     });
@@ -63,9 +66,16 @@ const Page = () => {
 
 
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
 
-     
   return (
     <>
       <div className="flex justify-between items-center mt-[100px] w-[80%] mx-auto">
@@ -79,13 +89,13 @@ const Page = () => {
           </Link>
 
 
-{/*           
+          {/*           
           <Link href="">
             <button onClick={generateLink}  className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">
               Share Form Via Link
             </button>
           </Link> */}
-         {/* {generatedLink ? (
+          {/* {generatedLink ? (
         <Link href={`/shareform/${generatedLink.split('/').pop()}`}>
           <button className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]">
             Share Form Via Link
@@ -104,21 +114,21 @@ const Page = () => {
 
 
 
-{!generatedLink ? (
-        <button
-          onClick={generateLink}
-          className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
-        >
-          Generate Link
-        </button>
-      ) : (
-        <button
-          onClick={copyToClipboard}  // Copy link on button click
-          className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
-        >
-          Copy Form Link
-        </button>
-      )}
+          {!generatedLink ? (
+            <button
+              onClick={generateLink}
+              className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
+            >
+              Generate Link
+            </button>
+          ) : (
+            <button
+              onClick={copyToClipboard}  // Copy link on button click
+              className="text-white text-lg bg-blue-600 cursor-pointer py-4 px-8 border-none outline-none rounded-[5px]"
+            >
+              Copy Form Link
+            </button>
+          )}
         </div>
       </div>
       <div className="mt-6 mx-auto w-[80%]">
@@ -147,7 +157,7 @@ const Page = () => {
                     <td className="border border-gray-300 p-2">{item.name}</td>
                     <td className="border border-gray-300 p-2">{item.email}</td>
                     <td className="border border-gray-300 p-2">{item.mobilePhone}</td>
-                    <td className="border border-gray-300 p-2">{item.dateOfBirth}</td>
+                    <td className="border border-gray-300 p-2">{formatDate(item)}</td>
                     <td className="border border-gray-300 p-2">{item.socialSecurityNumber}</td>
                     <td className="border border-gray-300 p-2">{item.address}</td>
                     <td className="border border-gray-300 p-2">{item.maritalStatus}</td>
