@@ -59,7 +59,6 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      {/* Toast Container */}
       <Toaster position="top-right" />
 
       <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-lg">

@@ -64,16 +64,15 @@ const DetailForm = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
+
     const nextStep = () => setStep((prev) => prev + 1);
     const prevStep = () => setStep((prev) => prev - 1);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const token = localStorage.getItem("token"); // or from context, cookie, etc.
+            const token = localStorage.getItem("token");
             const isLoggedIn = token && token !== "null";
-
-            // If not logged in, you must have a linkId from the URL or somewhere
             const linkId = !isLoggedIn ? getLinkIdFromURL() : null;
 
             const formSubmitApi = isLoggedIn
@@ -84,7 +83,7 @@ const DetailForm = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    ...(isLoggedIn && { Authorization: token }), // only include token if logged in
+                    ...(isLoggedIn && { Authorization: token }),
                 },
                 body: JSON.stringify(formData),
             });
@@ -96,8 +95,6 @@ const DetailForm = () => {
             const data = await response.json();
             alert("Form submitted successfully!");
             console.log("Response from backend:", data);
-
-            // Reset form
             setFormData({
                 name: "",
                 socialSecurityNumber: "",
@@ -373,7 +370,7 @@ const DetailForm = () => {
                                 <>    <div>
                                     <label className="block mb-2">On what date did your injury occur?</label>
                                     <input
-                                        type="date"
+                                        type="date" 
                                         name="injuryOccurDate"
                                         value={formData.injuryOccurDate}
                                         onChange={handleChange}
@@ -492,7 +489,7 @@ const DetailForm = () => {
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                             rows="4"
                                             required
-                                        ></textarea>
+                                        ></textarea> 
 
                                     </div>
 
@@ -604,7 +601,7 @@ const DetailForm = () => {
                                         <label className="block mb-2">Income Before Injury ($) per</label>
                                         <div className="flex gap-4 mb-4">
                                             <input
-                                                type="number"
+                                                type="number"   
                                                 name="incomeBeforeInjuryPer"
                                                 value={formData.incomeBeforeInjuryPer}
                                                 onChange={handleChange}
@@ -615,7 +612,7 @@ const DetailForm = () => {
                                                 name="incomeBeforInjuryPerType"
                                                 value={formData.incomeBeforInjuryPerType}
                                                 onChange={handleChange}
-                                                className="w-1/2 px-3 py-2 border rounded-lg"
+                                                className="w-1/2 px-3 py-2 border rounded-lg"   
                                                 required
                                             >
                                                 <option value="">Select</option>
@@ -628,7 +625,7 @@ const DetailForm = () => {
 
                                         <label className="block mb-2">Income After Injury ($) per</label>
                                         <div className="flex gap-4">
-                                            <input
+                                            <input   
                                                 type="number"
                                                 name="incomeAfterInjuryPer"
                                                 value={formData.incomeAfterInjuryPer}
@@ -639,7 +636,7 @@ const DetailForm = () => {
                                             <select
                                                 name="incomeAfterInjuryPerType"
                                                 value={formData.incomeAfterInjuryPerType}
-                                                onChange={handleChange}
+                                                onChange={handleChange}   
                                                 className="w-1/2 px-3 py-2 border rounded-lg"
                                                 required
                                             >
@@ -650,7 +647,7 @@ const DetailForm = () => {
                                                 <option value="year">Year</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>   
 
 
                                     <div>
@@ -663,7 +660,7 @@ const DetailForm = () => {
                                                     name="lostIncomeDueToInjury"
                                                     value="Yes"
                                                     checked={formData.lostIncomeDueToInjury === "Yes"}
-                                                    onChange={handleChange}
+                                                    onChange={handleChange}  
                                                     className="mr-2"
                                                 />
                                                 Yes
@@ -695,7 +692,7 @@ const DetailForm = () => {
                                         )}
                                     </div>
                                 </>
-                            )}
+                            )}  
 
 
                             {step === 6 && (
@@ -708,17 +705,17 @@ const DetailForm = () => {
                                         onChange={handleChange}
                                         className="w-full px-3 py-2 border rounded-lg mb-4"
                                         required
-                                    />
+                                    /> 
 
                                     <label className="block mb-2">Position</label>
                                     <input
                                         type="text"
-                                        name="employerPosition"
-                                        value={formData.employerPosition}
+                                        name="employerPosition"     
+                                        value={formData.employerPosition}     
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg mb-4"
+                                        className="w-full px-3 py-2 border rounded-lg mb-4"     
                                         required
-                                    />
+                                    />  
                                 </div>
                                     <div>
                                         <label className="block mb-2">Employer's Address</label>
@@ -730,42 +727,42 @@ const DetailForm = () => {
                                             rows="3"
                                             required
                                         ></textarea>
-                                    </div>
+                                    </div> 
                                     <div>
                                         <label className="block mb-2">Employer’s Telephone Number</label>
                                         <input
-                                            type="number"
+                                            type="number"  
                                             name="employerTelephoneNumber"
                                             value={formData.employerTelephoneNumber}
                                             onChange={handleChange}
-                                            className="w-full px-3 py-2 border rounded-lg mb-4"
+                                            className="w-full px-3 py-2 border rounded-lg mb-4"  
                                             required
                                         />
-
-                                        {/* Currently Working Section */}
-                                        <label className="block mb-2">Are you currently working?</label>
+   
+                                        {/* Currently Working Section */} 
+                                        <label className="block mb-2">Are you currently working?</label> 
                                         <div className="flex items-center gap-4 mb-4">
                                             <label className="flex items-center">
                                                 <input
-                                                    type="radio"
+                                                    type="radio" 
                                                     name="currentlyWorking"
                                                     value="Yes"
-                                                    checked={formData.currentlyWorking === "Yes"}
+                                                    checked={formData.currentlyWorking === "Yes"}  
                                                     onChange={handleChange}
                                                     className="mr-2"
-                                                />
-                                                Yes
+                                                />   
+                                                Yes   
                                             </label>
                                             <label className="flex items-center">
                                                 <input
                                                     type="radio"
                                                     name="currentlyWorking"
-                                                    value="No"
+                                                    value="No"   
                                                     checked={formData.currentlyWorking === "No"}
-                                                    onChange={handleChange}
+                                                    onChange={handleChange}  
                                                     className="mr-2"
                                                 />
-                                                No
+                                                No  
                                             </label>
                                         </div>
 
@@ -780,29 +777,28 @@ const DetailForm = () => {
                                                         name="returnToWorkDate"
                                                         value={formData.returnToWorkDate}
                                                         onChange={handleChange}
-                                                        className="w-full px-3 py-2 border rounded-lg mb-4"
+                                                        className="w-full px-3 py-2 border rounded-lg mb-4"     
                                                     />
 
                                                     <label className="flex items-center">
                                                         <input
                                                             type="checkbox"
-                                                            name="willNotReturnToWork"
-
+                                                            name="willNotReturnToWork"   
                                                             checked={formData.willNotReturnToWork}
                                                             onChange={handleChange}
-                                                            className="mr-2"
+                                                            className="mr-2"           
                                                         />
                                                         Will not return to work
-                                                    </label>
+                                                    </label>  
                                                 </div>
-                                            )}
+                                            )}    
                                         </div>
                                     </div>
                                     <div>
                                         <label className="block mb-2">Are you in pain? If so, describe.</label>
                                         <textarea
-                                            name="inPain"
-                                            value={formData.inPain}
+                                            name="inPain" 
+                                            value={formData.inPain}   
                                             onChange={handleChange}
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                             rows="4"
@@ -812,8 +808,8 @@ const DetailForm = () => {
                             )}
 
 
-                            {step === 7 && (
-                                <>   <div>
+                            {step === 7 && ( 
+                                <>   <div> 
                                     <label className="block mb-2">
                                         Describe any other ways in which your life has changed as a result of your injuries.
                                     </label>
@@ -821,7 +817,7 @@ const DetailForm = () => {
                                         name="wayYourLifeDamage"
                                         value={formData.wayYourLifeDamage}
                                         onChange={handleChange}
-                                        className="w-full px-3 py-2 border rounded-lg mb-4"
+                                        className="w-full px-3 py-2 border rounded-lg mb-4"  
                                         rows="6"
                                         required
                                     ></textarea>
@@ -830,13 +826,13 @@ const DetailForm = () => {
                                         <label className="block mb-2">
                                             If married, has your spouse experienced any losses as a result of your injury? If so, describe.
                                         </label>
-                                        <textarea
-                                            name="spouseExperiencedAnyLossDueToInjury"
+                                        <textarea 
+                                            name="spouseExperiencedAnyLossDueToInjury"  
                                             value={formData.spouseExperiencedAnyLossDueToInjury}
                                             onChange={handleChange}
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                             rows="6"
-                                        ></textarea>
+                                        ></textarea>   
                                     </div> </>
                             )}
 
@@ -851,7 +847,7 @@ const DetailForm = () => {
                                         value={formData.witnessDetail}
                                         onChange={handleChange}
                                         className="w-full px-3 py-2 border rounded-lg mb-4"
-                                        rows="6"
+                                        rows="6"  
                                         required
                                     ></textarea>
                                 </div>
@@ -863,7 +859,7 @@ const DetailForm = () => {
                                 <>  <div>
                                     <label className="block mb-2">Any conversations at the scene of the incident?</label>
                                     <textarea
-                                        name="conversationOfTheIncident"
+                                        name="conversationOfTheIncident"   
                                         value={formData.conversationOfTheIncident}
                                         onChange={handleChange}
                                         className="w-full px-3 py-2 border rounded-lg mb-4"
@@ -881,33 +877,33 @@ const DetailForm = () => {
                                             rows="4"
                                         ></textarea>
                                     </div>
-
+ 
                                     <div>
                                         <label className="block mb-2">Type of shoes worn at the time of injury</label>
                                         <input
                                             type="text"
-                                            name="shoesWornAtTheTimeOfInjury"
-                                            value={formData.shoesWornAtTheTimeOfInjury}
+                                            name="shoesWornAtTheTimeOfInjury"   
+                                            value={formData.shoesWornAtTheTimeOfInjury}      
                                             onChange={handleChange}
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div>  
                                         <label className="block mb-2">If a fall occurred, how did you land?</label>
                                         <textarea
                                             name="fallOccurredHowLand"
-                                            value={formData.fallOccurredHowLand}
+                                            value={formData.fallOccurredHowLand}  
                                             onChange={handleChange}
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
                                             rows="3"
                                         ></textarea>
                                     </div>
 
-                                    <div>
+                                    <div>      
                                         <label className="block mb-2">If you slipped but didn’t fall, what stopped you?</label>
                                         <textarea
-                                            name="slippedButNotFallWhatStop"
+                                            name="slippedButNotFallWhatStop"    
                                             value={formData.slippedButNotFallWhatStop}
                                             onChange={handleChange}
                                             className="w-full px-3 py-2 border rounded-lg mb-4"
@@ -933,7 +929,7 @@ const DetailForm = () => {
                                                 <input
                                                     type="radio"
                                                     name="previouslyConsultedAnAttorney"
-                                                    value="No"
+                                                    value="No"      
                                                     checked={formData.previouslyConsultedAnAttorney === "No"}
                                                     onChange={handleChange}
                                                     className="mr-2"
@@ -941,7 +937,6 @@ const DetailForm = () => {
                                                 No
                                             </label>
                                         </div>
-
 
                                         {formData.consultedAttorney === "Yes" && (
                                             <>
@@ -952,7 +947,7 @@ const DetailForm = () => {
                                                     onChange={handleChange}
                                                     className="w-full px-3 py-2 border rounded-lg mb-4"
                                                     rows="4"
-                                                ></textarea>
+                                                ></textarea>  
 
                                                 <label className="block mb-2">Is your relationship with the attorney ongoing?</label>
                                                 <div className="mb-4">
@@ -962,27 +957,27 @@ const DetailForm = () => {
                                                             name="ongoingAttorney"
                                                             value="Yes"
                                                             checked={formData.ongoingAttorney === "Yes"}
-                                                            onChange={handleChange}
+                                                            onChange={handleChange}        
                                                             className="mr-2"
                                                         />
                                                         Yes
                                                     </label>
                                                     <label>
-                                                        <input
+                                                        <input 
                                                             type="radio"
                                                             name="ongoingAttorney"
                                                             value="No"
                                                             checked={formData.ongoingAttorney === "No"}
                                                             onChange={handleChange}
-                                                            className="mr-2"
+                                                            className="mr-2"    
                                                         />
-                                                        No
+                                                        No   
                                                     </label>
                                                 </div>
 
                                                 <label className="block mb-2">Has an attorney declined to represent you?</label>
                                                 <div className="mb-4">
-                                                    <label className="mr-4">
+                                                    <label className="mr-4"> 
                                                         <input
                                                             type="radio"
                                                             name="attorneyDeclined"
@@ -990,23 +985,23 @@ const DetailForm = () => {
                                                             checked={formData.attorneyDeclined === "Yes"}
                                                             onChange={handleChange}
                                                             className="mr-2"
-                                                        />
+                                                        />    
                                                         Yes
                                                     </label>
                                                     <label>
                                                         <input
                                                             type="radio"
                                                             name="attorneyDeclined"
-                                                            value="No"
+                                                            value="No"   
                                                             checked={formData.attorneyDeclined === "No"}
                                                             onChange={handleChange}
                                                             className="mr-2"
                                                         />
                                                         No
                                                     </label>
-                                                </div>
-
-                                                {formData.attorneyDeclined === "Yes" && (
+                                                </div>   
+ 
+                                                {formData.attorneyDeclined === "Yes" && (                            
                                                     <>
                                                         <label className="block mb-2">If yes, why?</label>
                                                         <textarea
@@ -1039,7 +1034,7 @@ const DetailForm = () => {
                                         rows="5"
                                         placeholder="Enter any additional details related to your case..."
                                     ></textarea>
-                                </div>
+                                </div>  
 
                             )}
 
@@ -1053,5 +1048,5 @@ const DetailForm = () => {
     )
 }
 
-export default DetailForm
+export default DetailForm    
 
